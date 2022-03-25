@@ -23,7 +23,14 @@ pass:$2y$05$7IWY4KIY8l52R5XbTfU24uRw679eZeHHiSwtY2sfT5R7eAVGdJ1IS # この値を
 
 その後2回パスワードの入力を求められるので、引数と同様の値を入力し、出力された値をデータベースに登録するパスワードとして使用します。
 
-## DB
+## DB on docker
+
+### 起動
+
+```
+cd docker
+docker-compose up -d
+```
 
 ### アクセス
 
@@ -42,14 +49,19 @@ sqlフォルダのsqlを実行
 
 ### MyBatisのコード生成
 
-generatorConfig.xmlの8行目の変更
+generatorConfig.xmlの8行目のmysql-connector-javaのパスは、各自の環境に合わせて変更
+
+
+### sql文追加時
+
+```./gredlew nbGenerator```
 
 ### FAQ
 
 - build.gradle.ktsで、mybatisGeneratorうまく読み込めない
 - `./gradlew mbGenerator`でエラー
-- gradle/wrapper/gradle-wrapper-propertiesで、gradleをバージョンダウン
-- `distributionUrl=https\://services.gradle.org/distributions/gradle-6.9.2-bin.zip`
+  - gradle/wrapper/gradle-wrapper-propertiesで、gradleをバージョンダウン
+  - `distributionUrl=https\://services.gradle.org/distributions/gradle-6.9.2-bin.zip`
 
 ## 動作確認
 
