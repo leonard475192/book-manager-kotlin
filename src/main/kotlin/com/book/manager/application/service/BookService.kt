@@ -1,12 +1,15 @@
 package com.book.manager.application.service
 
 import com.book.manager.domain.model.BookWithRental
+import com.book.manager.domain.model.RentalHistoryWithUserProfile
 import com.book.manager.domain.repository.BookRepository
+import com.book.manager.domain.repository.RentalHistoryWithUserProfileRepository
 import org.springframework.stereotype.Service
 
 @Service
 class BookService(
-    private val bookRepository: BookRepository
+    private val bookRepository: BookRepository,
+    private val rentalHistoryWithUserProfileRepository: RentalHistoryWithUserProfileRepository
 ) {
     fun getList(): List<BookWithRental> {
         return bookRepository.findAllWithRental()
@@ -14,5 +17,9 @@ class BookService(
 
     fun getDetail(bookId: Long): BookWithRental {
         return bookRepository.findWithRental(bookId) ?: throw IllegalArgumentException("存在しない書籍ID: $bookId")
+    }
+
+    fun getListRentalHistory(bookId: Long): List<RentalHistoryWithUserProfile> {
+        return rentalHistoryWithUserProfileRepository.fetchRentalHistory(bookId)
     }
 }
