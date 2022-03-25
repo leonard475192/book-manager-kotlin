@@ -1,5 +1,6 @@
 package com.book.manager.domain.repository
 
+import com.book.manager.domain.model.RentalHistoryWithBook
 import com.book.manager.domain.model.User
 
 interface UserRepository {
