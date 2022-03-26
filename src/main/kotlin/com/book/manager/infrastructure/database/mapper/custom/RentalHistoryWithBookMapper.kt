@@ -28,6 +28,6 @@ interface RentalHistoryWithBookMapper {
     fun selectMany(selectStatement: SelectStatementProvider): List<RentalHistoryWithBookRecord>
 
     @SelectProvider(type = SqlProviderAdapter::class, method = "select")
-    @ResultMap("BookWithRentalRecordResult")
+    @ResultMap("RentalHistoryWithBook")
     fun selectOne(selectStatement: SelectStatementProvider): RentalHistoryWithBookRecord?
 }
