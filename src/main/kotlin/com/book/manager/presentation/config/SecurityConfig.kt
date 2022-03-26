@@ -22,7 +22,18 @@ class SecurityConfig(
 ) : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http.authorizeHttpRequests()
-            .mvcMatchers("/login").permitAll()
+            .mvcMatchers(
+                "/login",
+                "/images/**",
+                "/js/**",
+                "/css/**",
+                "/v2/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**",
+            ).permitAll()
             .mvcMatchers("/admin/**").hasAuthority(RoleType.ADMIN.toString())
             .anyRequest().authenticated()
             .and()
