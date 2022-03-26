@@ -25,6 +25,6 @@ interface RentalHistoryWithUserMapper {
     fun selectMany(selectStatement: SelectStatementProvider): List<RentalHistoryWithUserRecord>
 
     @SelectProvider(type = SqlProviderAdapter::class, method = "select")
-    @ResultMap("BookWithRentalRecordResult")
+    @ResultMap("RentalHistoryWithBook")
     fun selectOne(selectStatement: SelectStatementProvider): RentalHistoryWithUserRecord?
 }
