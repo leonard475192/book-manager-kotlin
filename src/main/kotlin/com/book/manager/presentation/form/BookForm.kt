@@ -1,7 +1,6 @@
 package com.book.manager.presentation.form
 
-import com.book.manager.domain.model.BookWithRental
-import com.book.manager.domain.model.Rental
+import com.book.manager.domain.model.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -26,14 +25,16 @@ data class GetBookDetailResponse(
     val title: String,
     val author: String,
     val releaseDate: LocalDate,
-    val rentalInfo: RentalInfo?
+    val rentalInfo: RentalInfo?,
+    val rentalHistories: List<RentalHistoryInfo>,
 ) {
-    constructor(model: BookWithRental) : this(
+    constructor(model: BookWithRental, rentalHistories: List<RentalHistoryWithUserProfile>) : this(
         model.book.id,
         model.book.title,
         model.book.author,
         model.book.releaseData,
-        model.rental?.let { RentalInfo(model.rental) }
+        model.rental?.let { RentalInfo(model.rental) },
+        rentalHistories.map{ RentalHistoryInfo(it) }
     )
 }
 
@@ -46,6 +47,20 @@ data class RentalInfo(
         rental.userId,
         rental.rentalDatetime,
         rental.returnDeadline
+    )
+}
+
+data class RentalHistoryInfo(
+    val userId: Long,
+    val name: String,
+    val rentalDateTime: LocalDateTime,
+    val returnDeadline: LocalDateTime,
+) {
+    constructor(rentalHistory: RentalHistoryWithUserProfile) : this(
+        rentalHistory.userProfile.id,
+        rentalHistory.userProfile.name,
+        rentalHistory.rentalHistory.rentalDatetime,
+        rentalHistory.rentalHistory.returnDatetime
     )
 }
 

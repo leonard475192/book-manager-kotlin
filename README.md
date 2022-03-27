@@ -23,7 +23,14 @@ pass:$2y$05$7IWY4KIY8l52R5XbTfU24uRw679eZeHHiSwtY2sfT5R7eAVGdJ1IS # この値を
 
 その後2回パスワードの入力を求められるので、引数と同様の値を入力し、出力された値をデータベースに登録するパスワードとして使用します。
 
-## DB
+## DB on docker
+
+### 起動
+
+```
+cd docker
+docker-compose up -d
+```
 
 ### アクセス
 
@@ -42,14 +49,19 @@ sqlフォルダのsqlを実行
 
 ### MyBatisのコード生成
 
-generatorConfig.xmlの8行目の変更
+generatorConfig.xmlの8行目のmysql-connector-javaのパスは、各自の環境に合わせて変更
+
+
+### sql文追加時
+
+```./gredlew nbGenerator```
 
 ### FAQ
 
 - build.gradle.ktsで、mybatisGeneratorうまく読み込めない
 - `./gradlew mbGenerator`でエラー
-- gradle/wrapper/gradle-wrapper-propertiesで、gradleをバージョンダウン
-- `distributionUrl=https\://services.gradle.org/distributions/gradle-6.9.2-bin.zip`
+  - gradle/wrapper/gradle-wrapper-propertiesで、gradleをバージョンダウン
+  - `distributionUrl=https\://services.gradle.org/distributions/gradle-6.9.2-bin.zip`
 
 ## 動作確認
 
@@ -58,52 +70,52 @@ generatorConfig.xmlの8行目の変更
 
 成功:user
 ```
-curl -i -c cookie.txt -H 'Content-Type:application/x-www-form-urlencoded' -X POST -d 'email=user@test.com' -d 'pass=user' http://localhost:8080/login
+curl -i -c cookie.txt -H 'Content-Type:application/x-www-form-urlencoded' -X POST -d 'email=user@test.com' -d 'pass=user' http://localhost:8082/login
 ```
 成功:管理者
 ```
-curl -i -c cookie.txt -H 'Content-Type:application/x-www-form-urlencoded' -X POST -d 'email=admin@test.com' -d 'pass=admin' http://localhost:8080/login
+curl -i -c cookie.txt -H 'Content-Type:application/x-www-form-urlencoded' -X POST -d 'email=admin@test.com' -d 'pass=admin' http://localhost:8082/login
 ```
 
 
 失敗: TODO エラーメッセージ 401だけだと、なにが足りないのか不明なため
 ```
-curl -i -c cookie.txt -H 'Content-Type:application/x-www-form-urlencoded' -X POST -d 'email=user@test.com' -d 'pass=test' http://localhost:8080/login
+curl -i -c cookie.txt -H 'Content-Type:application/x-www-form-urlencoded' -X POST -d 'email=user@test.com' -d 'pass=test' http://localhost:8082/login
 ```
 
 #### 一覧
 ```
-curl -i -b cookie.txt http://localhost:8080/book/list
+curl -i -b cookie.txt http://localhost:8082/book/list
 ```
 
 #### 詳細
 ```
-curl -i -b cookie.txt http://localhost:8080/book/detail/200
+curl -i -b cookie.txt http://localhost:8082/book/detail/200
 ```
 
 #### 貸出
 ```
-curl -i -b cookie.txt -H 'Content-Type:application/json' -X POST -d '{"book_id":200}' http://localhost:8080/rental/start
+curl -i -b cookie.txt -H 'Content-Type:application/json' -X POST -d '{"book_id":200}' http://localhost:8082/rental/start
 ```
 
 #### 返却
 ```
-curl -i -b cookie.txt -X DELETE http://localhost:8080/rental/end/200
+curl -i -b cookie.txt -X DELETE http://localhost:8082/rental/end/200
 ```
 
 
 ### 認可: 管理者権限
 #### 登録
 ```
-curl -i -b cookie.txt -H 'Content-Type:application/json' -X POST -d '{"id":400,"title":"Kotlinサーバーサイドプログラミング実践","author":"竹端尚人","release_date":"2020-12-24"}' http://localhost:8080/admin/book/register
+curl -i -b cookie.txt -H 'Content-Type:application/json' -X POST -d '{"id":400,"title":"Kotlinサーバーサイドプログラミング実践","author":"竹端尚人","release_date":"2020-12-24"}' http://localhost:8082/admin/book/register
 ```
 
 #### 更新
 ```
-curl -i -b cookie.txt -H 'Content-Type:application/json' -X PUT -d '{"id":400,"title":"Kotlinサーバーサイドプログラミング実践第２版"}' http://localhost:8080/admin/book/update
+curl -i -b cookie.txt -H 'Content-Type:application/json' -X PUT -d '{"id":400,"title":"Kotlinサーバーサイドプログラミング実践第２版"}' http://localhost:8082/admin/book/update
 ```
 
 #### 削除
 ```
-curl -i -b cookie.txt -X DELETE http://localhost:8080/admin/book/delete/400
+curl -i -b cookie.txt -X DELETE http://localhost:8082/admin/book/delete/400
 ```

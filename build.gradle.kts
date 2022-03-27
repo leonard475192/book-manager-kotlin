@@ -29,6 +29,9 @@ dependencies {
 	implementation("org.springframework.session:spring-session-data-redis") // 追加
 	implementation("redis.clients:jedis") // 追加
 	implementation("org.springframework.boot:spring-boot-starter-aop") // 追加
+	implementation("org.springdoc:springdoc-openapi-data-rest:1.6.6")
+	implementation("org.springdoc:springdoc-openapi-ui:1.6.6")
+	implementation("org.springdoc:springdoc-openapi-kotlin:1.6.6")
 	mybatisGenerator("org.mybatis.generator:mybatis-generator-core:1.4.0") // 追加
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

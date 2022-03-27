@@ -1,7 +1,9 @@
 package com.book.manager.application.service
 
 import com.book.manager.domain.model.Rental
+import com.book.manager.domain.model.RentalHistory
 import com.book.manager.domain.repository.BookRepository
+import com.book.manager.domain.repository.RentalHistoryRepository
 import com.book.manager.domain.repository.RentalRepository
 import com.book.manager.domain.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -16,6 +18,7 @@ class RentalService(
     private val userRepository: UserRepository,
     private val bookRepository: BookRepository,
     private val rentalRepository: RentalRepository,
+    private val rentalHistoryRepository: RentalHistoryRepository
 ) {
     @Transactional
     fun startRental(bookId: Long, userId: Long) {
@@ -42,5 +45,9 @@ class RentalService(
         if (book.rental!!.userId != userId) throw IllegalStateException("他のユーザーが貸し出し中です userId:$userId, bookId:$bookId")
 
         rentalRepository.endRental(bookId)
+
+        val returnDateTime = LocalDateTime.now()
+        val rentalHistory = RentalHistory(rentalDatetime = book.rental.rentalDatetime, returnDatetime = returnDateTime)
+        rentalHistoryRepository.register(rentalHistory=rentalHistory, bookId=bookId, userId=userId)
     }
 }

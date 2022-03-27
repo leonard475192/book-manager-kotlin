@@ -23,7 +23,7 @@ data class BookManagerUserDetails(
     val pass: String,
     val roleType: RoleType
 ) : UserDetails {
-    constructor(user: User) : this(user.id, user.email, user.password, user.roleType)
+    constructor(user: User) : this(user.userProfile.id, user.email, user.password, user.roleType)
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return AuthorityUtils.createAuthorityList(this.roleType.toString())

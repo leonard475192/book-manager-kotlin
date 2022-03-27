@@ -1,6 +1,7 @@
 package com.book.manager.infrastructure.database.repository
 
 import com.book.manager.domain.model.User
+import com.book.manager.domain.model.UserProfile
 import com.book.manager.domain.repository.UserRepository
 import com.book.manager.infrastructure.database.mapper.UserDynamicSqlSupport
 import com.book.manager.infrastructure.database.mapper.UserMapper
@@ -28,11 +29,14 @@ class UserRepositoryImpl(
     }
 
     private fun toModel(record: UserRecord): User {
-        return User(
+        val userProfile = UserProfile(
             record.id!!,
+            record.name!!,
+        )
+        return User(
+            userProfile,
             record.email!!,
             record.password!!,
-            record.name!!,
             record.roleType!!
         )
     }

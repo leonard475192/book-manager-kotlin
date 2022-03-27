@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("book")
 @CrossOrigin
 class BookController(
-    private val boolService: BookService
+    private val bookService: BookService
 ) {
     @GetMapping("/list")
     fun getList(): GetBookListResponse {
-        val bookList = boolService.getList().map {
+        val bookList = bookService.getList().map {
             BookInfo(it)
         }
         return GetBookListResponse(bookList)
@@ -26,7 +26,8 @@ class BookController(
 
     @GetMapping("/detail/{book_id}")
     fun getDetail(@PathVariable("book_id") bookId: Long): GetBookDetailResponse {
-        val book = boolService.getDetail(bookId)
-        return GetBookDetailResponse(book)
+        val book = bookService.getDetail(bookId)
+        val rentalHistory = bookService.getListRentalHistory(bookId)
+        return GetBookDetailResponse(book, rentalHistory)
     }
 }
